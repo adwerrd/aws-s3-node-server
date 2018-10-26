@@ -1,30 +1,42 @@
-'use strict';
+// 'use strict';
 
 const Controller = require('egg').Controller;
-const AWS = require('aws-sdk');
+const validator = require('validator');
 const utility = require('utility');
 
 class AwsController extends Controller {
   async list() {
     const { ctx } = this;
     try {
-      const key = this.getKey()
-      const buckets = await ctx.service.aws.handler('listBuckets', key, 5000);
+      const Key  = this.getKey();
+      const key = {
+        accessKeyId: Key.accessKeyId,
+        secretAccessKey: Key.secretAccessKey
+      }
+      const buckets = await ctx.service.aws.handler('listBuckets', key, 5000, {}, Key.host, Key.region);
       ctx.body = buckets;
     } catch (error) {
       ctx.body = error;
     }
   }
 
-  async newS3() {
+  async getURL() {
     const { ctx } = this;
+    const { params , timeout } = ctx.request.body;
+    const obj  = this.getKey();
+    const key = {
+      accessKeyId: obj.accessKeyId,
+      secretAccessKey: obj.secretAccessKey
+    }
     try {
-      const timeout =  ctx.request.body.timeout;
-      const host = ctx.request.body.host;
-      const s3ForcePathStyle = ctx.request.body.s3ForcePathStyle || true;
-      const key  = this.getKey();
-      const result = getS3(key, timeout, host, s3ForcePathStyle);
-      ctx.body = result;
+      const s3 = await ctx.service.aws.getS3({
+        key, 
+        timeout: timeout || 3600000,
+        host: obj.host,
+        region: obj.region
+      });
+      const url = s3.getSignedUrl('putObject', params || '');
+      ctx.body = url;
     } catch (error) {
       ctx.body = error;
     }
@@ -32,14 +44,14 @@ class AwsController extends Controller {
 
   async handler() {
     const { ctx } = this;
+    const { method, params , timeout} = ctx.request.body;
     try {
-      const method = ctx.request.body.method;
-      const timeout =  ctx.request.body.timeout;
-      const params = ctx.request.body.params;
-      const host = ctx.request.body.host;
-      const s3ForcePathStyle = ctx.request.body.s3ForcePathStyle || true;
-      const key  = this.getKey();
-      const result = await ctx.service.aws.handler(method, key, timeout, params, host, s3ForcePathStyle);
+      const obj = this.getKey();
+      const key = {
+        accessKeyId: obj.accessKeyId,
+        secretAccessKey: obj.secretAccessKey
+      }
+      const result = await ctx.service.aws.handler(method, key, timeout || 10000, params, obj.host ,obj.region);
       ctx.body = result;
     } catch (error) {
       ctx.body = error;
@@ -50,14 +62,15 @@ class AwsController extends Controller {
     let key = this.ctx.cookies.get('ticket', {
         encrypt: true,
       });
-    console.log('list--key--------\n', key);
-    return key = this.formatKey(utility.base64decode(key));
+    return this.formatKey(key);
   }
   
   formatKey(key) {
     return { 
       accessKeyId: key.split('$$')[0] || '',
       secretAccessKey: key.split('$$')[1] || '',
+      host: key.split('$$')[2] || '',
+      region: key.split('$$')[3] || '',
     }
   }
 }

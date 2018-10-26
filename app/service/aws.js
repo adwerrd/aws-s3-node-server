@@ -8,7 +8,7 @@ class AwsService extends Service {
     this.region = this.config.region;
   }
 
-  async configAws({
+  configAws({
     key,
     timeout = 10000,
     host = this.awsHost,
@@ -21,7 +21,7 @@ class AwsService extends Service {
     })
     AWS.config.region = region
     AWS.config.httpOptions = { timeout: timeout }
-    AWS.config.endpoint = host
+    AWS.config.endpoint = this.ctx.request.href.split(':')[0] + '://' + host
     AWS.config.s3ForcePathStyle = s3ForcePathStyle
     this.ctx.logger.info(AWS.config)
   }
@@ -29,9 +29,10 @@ class AwsService extends Service {
     key,
     timeout = 10000,
     host = this.awsHost,
+    region,
     s3ForcePathStyle = true,
   } = {}) {
-    await this.configAws({ key, timeout, host, s3ForcePathStyle })
+    this.configAws({ key, timeout, host, s3ForcePathStyle, region })
     return new AWS.S3()
   }
 
@@ -41,10 +42,11 @@ class AwsService extends Service {
     timeout = 10000,
     params = '',
     host = this.awsHost,
+    region,
     s3ForcePathStyle = true,
   ) {
     try {
-      const s3 = await this.getS3({key, timeout, host, s3ForcePathStyle })
+      const s3 = await this.getS3({key, timeout, host, region, s3ForcePathStyle })
       return new Promise((resolve, reject) =>
         s3[method](params, (error, data) => {
           error && this.ctx.logger.error(error.message)
