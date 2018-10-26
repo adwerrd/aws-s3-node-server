@@ -7,15 +7,10 @@ module.exports = app => {
   const { router, controller } = app;
   const auth = app.middleware.auth();
 
-  // test
-  // 
+  // v0
   router.post('/s3', auth, controller.aws.newS3);
   router.post('/handler', auth, controller.aws.handler);
-  // v1
-  router.get('/login', controller.login.login);
   router.post('/login', controller.login.index);
-  router.get('/listBucket', auth, controller.aws.list);
-  router.get('/list:bucket:prefix', auth, controller.aws.listObjects);
-  router.post('/createBucket', auth, controller.aws.create);
-  router.post('/removeBucket', auth, controller.aws.removeBucket);
+  router.get('/login', controller.login.login);
+  // v1
 };
