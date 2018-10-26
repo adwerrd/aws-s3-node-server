@@ -9,5 +9,9 @@ module.exports = app => {
 
   router.get('/login', controller.login.login);
   router.post('/login', controller.login.index);
-  router.get('/list', auth, controller.aws.list);
+  router.get('/listBucket', auth, controller.aws.list);
+  router.get('/list:bucket:prefix', auth, controller.aws.listObjects);
+  router.post('/createBucket', auth, controller.aws.create);
+  router.post('/removeBucket', auth, controller.aws.removeBucket);
+
 };
