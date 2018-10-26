@@ -15,7 +15,7 @@ module.exports = appInfo => {
   config.awsHost = 'http://47.93.3.45';
   config.region = 'us-west-1';
 
- // close csrf  
+ // csrf mode
   config.security = {
     csrf: false,
   };

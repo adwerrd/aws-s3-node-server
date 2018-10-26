@@ -11,14 +11,19 @@ class LoginController extends Controller {
       const username = validator.trim(ctx.request.body.username);
       const password = validator.trim(ctx.request.body.password);
       const key = this.formatKey(username, password);
-      const ticket = utility.escape(username + '$$' + password);
+      // set your encode method
+      const ticket = utility.base64encode(username + '$$' + password);
+      console.log('ticket---------\n',ticket);
       const result = await ctx.service.aws.handler('listBuckets', key, 2000);
       ctx.status = 200;
-      ctx.cookies.set('ticket', ticket);
+      ctx.cookies.set('ticket', ticket, {
+        encrypt: true, // 加密传输
+        maxAge: 24 * 3600 * 1000, // 1 天
+      });
       ctx.body = { data: result };
     } catch (error) {
       ctx.status = 403;
-      ctx.body =  { msg: error.message };
+      ctx.body = error;
     }
   }
 

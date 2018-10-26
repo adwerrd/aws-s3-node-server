@@ -12,9 +12,12 @@ class AwsController extends Controller {
   async list() {
     const { ctx } = this;
     try {
-      let key = ctx.cookies.get('ticket');
+      let key = ctx.cookies.get('ticket',{
+        encrypt: true,
+      });
+      console.log('list--key--------\n', key);
       if(key) {
-        key = this.formatKey(utility.unescape(key));
+        key = this.formatKey(utility.base64decode(key));
       }
       const buckets = await ctx.service.aws.handler('listBuckets', key, 5000);
       ctx.body = buckets;
@@ -24,7 +27,6 @@ class AwsController extends Controller {
   }
   async add() {
     const { ctx } = this;
-    
   }
 
   formatKey(key) {
