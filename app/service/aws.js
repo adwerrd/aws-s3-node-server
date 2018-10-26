@@ -26,8 +26,8 @@ class AwsService extends Service {
     this.ctx.logger.info(AWS.config)
   }
   async getS3({
-    timeout = 10000,
     key,
+    timeout = 10000,
     host = this.awsHost,
     s3ForcePathStyle = true,
   } = {}) {
@@ -44,7 +44,7 @@ class AwsService extends Service {
     s3ForcePathStyle = true,
   ) {
     try {
-      const s3 = await this.getS3({ timeout, key, host, s3ForcePathStyle })
+      const s3 = await this.getS3({key, timeout, host, s3ForcePathStyle })
       return new Promise((resolve, reject) =>
         s3[method](params, (error, data) => {
           error && this.ctx.logger.error(error.message)

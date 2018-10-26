@@ -11,7 +11,7 @@ module.exports = appInfo => {
   config.gzip = {
     threshold: 1024, // 小于 1k 的响应体不压缩
   }
-  // config AWS host adn region
+  // config AWS host and region
   config.awsHost = 'http://47.93.3.45';
   config.region = 'us-west-1';
 

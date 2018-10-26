@@ -9,6 +9,7 @@ class AwsController extends Controller {
     super(ctx);
     this.params = {};
   }
+
   async list() {
     const { ctx } = this;
     try {
@@ -16,11 +17,48 @@ class AwsController extends Controller {
       const buckets = await ctx.service.aws.handler('listBuckets', key, 5000);
       ctx.body = buckets;
     } catch (error) {
-      ctx.body = { error };
-      ctx.logger.info(error);
+      ctx.body = error;
     }
   }
 
+  async newS3() {
+    const { ctx } = this;
+    try {
+      const timeout =  ctx.request.body.timeout;
+      const host = ctx.request.body.host;
+      const s3ForcePathStyle = ctx.request.body.s3ForcePathStyle || true;
+      const key  = this.getKey();
+      const result = getS3(key, timeout, host, s3ForcePathStyle);
+      ctx.body = result;
+    } catch (error) {
+      ctx.body = error;
+    }
+  }
+
+  async handler() {
+    const { ctx } = this;
+    try {
+      const method = ctx.request.body.method;
+      const timeout =  ctx.request.body.timeout;
+      const params = ctx.request.body.params;
+      const host = ctx.request.body.host;
+      const s3ForcePathStyle = ctx.request.body.s3ForcePathStyle || true;
+      const key  = this.getKey();
+      const result = await ctx.service.aws.handler(method, key, timeout, params, host, s3ForcePathStyle);
+      ctx.body = result;
+    } catch (error) {
+      ctx.body = error;
+    }
+  }
+
+/**
+ *  method,
+    key,
+    timeout = 10000,
+    params = '',
+    host = this.awsHost,
+    s3ForcePathStyle = true,
+*/
   /**
    * listObjects(params, fun(){})
     params = {
@@ -133,7 +171,7 @@ class AwsController extends Controller {
   }
 
   getKey() {
-    let key = ctx.cookies.get('ticket', {
+    let key = this.ctx.cookies.get('ticket', {
         encrypt: true,
       });
     console.log('list--key--------\n', key);
