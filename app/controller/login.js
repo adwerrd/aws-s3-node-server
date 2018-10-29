@@ -7,14 +7,14 @@ const Controller = require('egg').Controller;
 class LoginController extends Controller {
   async index() {
     const { ctx } = this;
-    const { username, password, host, region, timeout } = ctx.request.body;
-      const obj = this.formatKey(username, password, host, region);
+    const { accesskey, secretkey, host, region, timeout } = ctx.request.body;
+      const obj = this.formatKey(accesskey, secretkey, host, region);
       const key = {
         accessKeyId: obj.accessKeyId,
         secretAccessKey: obj.secretAccessKey
       }
       // set your encode method
-      const ticket = (`${username}$$${password}$$${host}$$${region}`);
+      const ticket = (`${accesskey}$$${secretkey}$$${host}$$${region}`);
     try {
       const result = await ctx.service.aws.handler('listBuckets', key, timeout || 5000, '', obj.host, obj.region);
       ctx.status = 200;
