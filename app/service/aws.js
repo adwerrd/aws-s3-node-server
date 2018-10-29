@@ -21,7 +21,7 @@ class AwsService extends Service {
     })
     AWS.config.region = region
     AWS.config.httpOptions = { timeout: timeout }
-    AWS.config.endpoint = this.ctx.request.href.split(':')[0] + '://' + host
+    AWS.config.endpoint = host
     AWS.config.s3ForcePathStyle = s3ForcePathStyle
     this.ctx.logger.info(AWS.config)
   }
