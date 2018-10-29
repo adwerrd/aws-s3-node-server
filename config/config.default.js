@@ -18,6 +18,8 @@ module.exports = appInfo => {
  // csrf mode
   config.security = {
     csrf: false,
+    debug: 'csrf-disable',
+    domainWhiteList: [ 'http://cwn-ss.portal.baishancloud.com:8080', 'http://127.0.0.1:8080' ]
   };
   return config;
 };

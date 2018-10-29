@@ -6,6 +6,7 @@
   "dependencies": {
     "aws-sdk": "^2.341.0",
     "egg": "^2.2.1",
+    "egg-cors": "^2.1.1",
     "egg-scripts": "^2.5.0",
     "validator": "^10.8.0",
     "zlib": "^1.0.5"
