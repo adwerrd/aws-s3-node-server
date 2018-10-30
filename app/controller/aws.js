@@ -59,9 +59,7 @@ class AwsController extends Controller {
   }
 
   getKey() {
-    let key = this.ctx.cookies.get('ticket', {
-        encrypt: true,
-      });
+    let key = utility.base64decode(this.ctx.get('Authorization'));
     return this.formatKey(key);
   }
   

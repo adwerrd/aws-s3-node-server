@@ -5,8 +5,6 @@ module.exports = option => {
   return async function gzip(ctx, next) {
     await next();
 
-    ctx.set('Access-Control-Allow-Origin', '*');
-
     let body = ctx.body;
     if (!body) return;
 

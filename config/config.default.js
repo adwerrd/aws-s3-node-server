@@ -21,5 +21,11 @@ module.exports = appInfo => {
     debug: 'csrf-disable',
     domainWhiteList: [ 'http://cwn-ss.portal.baishancloud.com:8080', 'http://127.0.0.1:8080' ]
   };
+
+  config.cors = {
+    credentials: true,
+    allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH',
+  };
+  
   return config;
 };

@@ -2,9 +2,7 @@ module.exports = options => {
   return async function auth(ctx, next) {
     await next();
     
-    if (!ctx.cookies.get('ticket',{
-        encrypt: true,
-      })) {
+    if (!ctx.get('Authorization')) {
       ctx.redirect('/login');
     }
   };

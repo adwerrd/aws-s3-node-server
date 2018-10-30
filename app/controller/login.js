@@ -14,15 +14,14 @@ class LoginController extends Controller {
         secretAccessKey: obj.secretAccessKey
       }
       // set your encode method
-      const ticket = (`${accesskey}$$${secretkey}$$${host}$$${region}`);
+      const ticket = utility.base64encode(`${accesskey}$$${secretkey}$$${host}$$${region}`);
     try {
       const result = await ctx.service.aws.handler('listBuckets', key, timeout || 5000, '', obj.host, obj.region);
       ctx.status = 200;
-      ctx.cookies.set('ticket', ticket, {
-        encrypt: true, // 加密传输
-        maxAge: 24 * 3600 * 1000, // 1 天
-      });
-      ctx.body = result;
+      ctx.body = {
+        buckets: result,
+        token: ticket,
+      };
     } catch (error) {
       ctx.status = 403;
       ctx.body = error;
@@ -33,12 +32,10 @@ class LoginController extends Controller {
     const { ctx } = this;
     ctx.status = 401;
     ctx.body = { msg: 'login please' };
-    ctx.cookies.set('ticket', null);
   }
 
   async singOut() {
     const { ctx } = this;
-    ctx.cookies.set('ticket', null);
   }
 
   formatKey(accesskey, secretkey, host, region) {
