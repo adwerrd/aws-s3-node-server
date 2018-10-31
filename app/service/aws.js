@@ -8,13 +8,7 @@ class AwsService extends Service {
     this.region = this.config.region
   }
 
-  configAws({
-    key,
-    timeout = 10000,
-    host = this.awsHost,
-    s3ForcePathStyle,
-    region = this.region,
-  }) {
+  configAws({ key, timeout, host = this.awsHost, s3ForcePathStyle, region = this.region }) {
     AWS.config.update({
       accessKeyId: key.accessKeyId || '',
       secretAccessKey: key.secretAccessKey || '',
@@ -25,26 +19,12 @@ class AwsService extends Service {
     AWS.config.s3ForcePathStyle = s3ForcePathStyle
     this.ctx.logger.info(AWS.config)
   }
-  async getS3({
-    key,
-    timeout = 10000,
-    host = this.awsHost,
-    region,
-    s3ForcePathStyle = true,
-  } = {}) {
+  async getS3({ key, timeout, host, region, s3ForcePathStyle = true } = {}) {
     this.configAws({ key, timeout, host, s3ForcePathStyle, region })
     return new AWS.S3()
   }
 
-  async handler(
-    method,
-    key,
-    timeout = 10000,
-    params = '',
-    host = this.awsHost,
-    region,
-    s3ForcePathStyle = true,
-  ) {
+  async handler(method, key, timeout = 10000, params = '', host, region, s3ForcePathStyle = true) {
     try {
       const s3 = await this.getS3({
         key,

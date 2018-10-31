@@ -33,6 +33,7 @@
     "useTabs": false,
     "bracketSpacing": true,
     "arrowParens": "always",
+    "printWidth": 120,
     "singleQuote": true
   },
   "scripts": {

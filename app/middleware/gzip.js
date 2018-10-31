@@ -8,12 +8,10 @@ module.exports = (option) => {
     let body = ctx.body
     if (!body) return
 
-    // 支持 option.threshold
     if (option.threshold && ctx.length < option.threshold) return
 
     if (isJSON(body)) body = JSON.stringify(body)
 
-    // 设置 gzip body，修正响应头
     const stream = zlib.createGzip()
     stream.end(body)
     ctx.body = stream

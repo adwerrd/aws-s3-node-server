@@ -9,19 +9,9 @@ class AwsController extends Controller {
     const { ctx } = this
     const { method, params, timeout } = ctx.request.body
     try {
-      const obj = this.getKey()
-      const key = {
-        accessKeyId: obj.accessKeyId,
-        secretAccessKey: obj.secretAccessKey,
-      }
-      const result = await ctx.service.aws.handler(
-        method,
-        key,
-        timeout || 10000,
-        params,
-        obj.host,
-        obj.region,
-      )
+      const { accessKeyId, secretAccessKey, host, region } = this.getKey()
+      const key = { accessKeyId, secretAccessKey }
+      const result = await ctx.service.aws.handler(method, key, timeout || 10000, params, host, region)
 
       ctx.status = result.statusCode
       ctx.body = result
@@ -32,10 +22,6 @@ class AwsController extends Controller {
 
   getKey() {
     let key = utility.base64decode(this.ctx.get('Authorization'))
-    return this.formatKey(key)
-  }
-
-  formatKey(key) {
     return {
       accessKeyId: key.split('$$')[0] || '',
       secretAccessKey: key.split('$$')[1] || '',
