@@ -17,7 +17,6 @@ class AwsService extends Service {
     AWS.config.httpOptions = { timeout: timeout }
     AWS.config.endpoint = host
     AWS.config.s3ForcePathStyle = s3ForcePathStyle
-    this.ctx.logger.info(AWS.config)
   }
   async getS3({ key, timeout, host, region, s3ForcePathStyle = true } = {}) {
     this.configAws({ key, timeout, host, s3ForcePathStyle, region })
