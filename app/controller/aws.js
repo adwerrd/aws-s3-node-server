@@ -12,9 +12,10 @@ class AwsController extends Controller {
       const { accessKeyId, secretAccessKey, host, region } = this.getKey()
       const key = { accessKeyId, secretAccessKey }
       const result = await ctx.service.aws.handler(method, key, timeout || 10000, params, host, region)
-      ctx.status = result.statusCode || 200
+      ctx.status = 200
       ctx.body = result
     } catch (error) {
+      ctx.status = error.statusCode
       ctx.body = error
     }
   }
