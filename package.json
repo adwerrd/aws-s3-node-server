@@ -1,8 +1,8 @@
 {
-  "name": "example0",
+  "name": "aws-node-server",
   "version": "1.0.0",
   "description": "",
-  "private": true,
+  "private": false,
   "dependencies": {
     "aws-sdk": "^2.341.0",
     "egg": "^2.2.1",
@@ -36,8 +36,8 @@
     "singleQuote": true
   },
   "scripts": {
-    "start": "egg-scripts start --port=8080 --daemon --title=egg-server-example0",
-    "stop": "egg-scripts stop --title=egg-server-example0",
+    "start": "egg-scripts start --port=8080 --daemon --title=aws-node-server",
+    "stop": "egg-scripts stop --title=aws-node-server",
     "dev": "egg-bin dev",
     "debug": "egg-bin debug",
     "test": "npm run lint -- --fix && npm run test-local",
@@ -65,6 +65,6 @@
     "type": "git",
     "url": ""
   },
-  "author": "",
+  "author": "baishancloud.com",
   "license": "MIT"
 }
