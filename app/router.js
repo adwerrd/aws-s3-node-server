@@ -7,6 +7,6 @@ module.exports = (app) => {
   // v-test
   router.post('/handler', auth, controller.aws.handler)
   router.post('/login', controller.login.index)
-  router.get('/login', controller.login.login)
+  router.get('/login', controller.login.checkError)
   // v1
 }

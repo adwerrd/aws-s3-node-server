@@ -29,7 +29,7 @@ class LoginController extends Controller {
     }
   }
 
-  async login() {
+  async checkError() {
     const { ctx } = this
     ctx.status = 401
     ctx.body = { msg: 'please login first' }

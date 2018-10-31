@@ -44,7 +44,7 @@
     "test": "npm run lint -- --fix && npm run test-local",
     "test-local": "egg-bin test",
     "cov": "egg-bin cov",
-    "lint": "eslint .",
+    "lint": "lint-staged",
     "ci": "npm run lint && npm run cov",
     "autod": "autod"
   },
@@ -54,7 +54,7 @@
     }
   },
   "lint-staged": {
-    "*.{js,json,css,md}": [
+    "*.{js,json,css}": [
       "prettier --write",
       "git add"
     ]
