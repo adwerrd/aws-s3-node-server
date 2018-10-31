@@ -3,9 +3,9 @@ const Service = require('egg').Service
 
 class AwsService extends Service {
   constructor(ctx) {
-    super(ctx);
-    this.awsHost = this.config.awsHost;
-    this.region = this.config.region;
+    super(ctx)
+    this.awsHost = this.config.awsHost
+    this.region = this.config.region
   }
 
   configAws({
@@ -46,7 +46,13 @@ class AwsService extends Service {
     s3ForcePathStyle = true,
   ) {
     try {
-      const s3 = await this.getS3({key, timeout, host, region, s3ForcePathStyle })
+      const s3 = await this.getS3({
+        key,
+        timeout,
+        host,
+        region,
+        s3ForcePathStyle,
+      })
       return new Promise((resolve, reject) =>
         s3[method](params, (error, data) => {
           error && this.ctx.logger.error(error.message)

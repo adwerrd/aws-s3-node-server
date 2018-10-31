@@ -8,6 +8,7 @@
     "egg": "^2.2.1",
     "egg-cors": "^2.1.1",
     "egg-scripts": "^2.5.0",
+    "prettier": "^1.14.3",
     "validator": "^10.8.0",
     "zlib": "^1.0.5"
   },
@@ -19,10 +20,20 @@
     "egg-mock": "^3.14.0",
     "eslint": "^4.11.0",
     "eslint-config-egg": "^6.0.0",
+    "husky": "^1.1.2",
+    "lint-staged": "^8.0.3",
     "webstorm-disable-index": "^1.2.0"
   },
   "engines": {
     "node": ">=8.9.0"
+  },
+  "prettier": {
+    "semi": false,
+    "trailingComma": "all",
+    "useTabs": false,
+    "bracketSpacing": true,
+    "arrowParens": "always",
+    "singleQuote": true
   },
   "scripts": {
     "start": "egg-scripts start --port=8080 --daemon --title=egg-server-example0",
@@ -35,6 +46,17 @@
     "lint": "eslint .",
     "ci": "npm run lint && npm run cov",
     "autod": "autod"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,json,css,md}": [
+      "prettier --write",
+      "git add"
+    ]
   },
   "ci": {
     "version": "8"
