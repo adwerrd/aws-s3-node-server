@@ -69,3 +69,26 @@ $ open http://localhost:7001/
 $ npm start
 $ npm stop
 ```
+
+### 以容器的方式部署
+
+1. 安装docker环境,参考[点击查看](https://docs.docker.com/v17.09/engine/installation)
+
+2. build 镜像
+
+  ```bash
+  docker  build -t aws-s3-node-server:0.9 .
+  ```
+
+3. 运行容器
+
+  ```bash
+  docker run -tid --network=host aws-s3-node-server:0.9
+  ```
+
+4. 验证服务,如下输出说明服务正常
+
+  ```
+  ✗ curl 127.0.0.1:8080
+  aws s3 node server ok
+  ```
