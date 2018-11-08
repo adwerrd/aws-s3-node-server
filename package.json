@@ -38,6 +38,7 @@
   },
   "scripts": {
     "start": "egg-scripts start --port=8080 --daemon --title=aws-node-server",
+    "docker": "egg-scripts start --port=8080 --title=aws-node-server",
     "stop": "egg-scripts stop --title=aws-node-server",
     "dev": "egg-bin dev",
     "debug": "egg-bin debug",

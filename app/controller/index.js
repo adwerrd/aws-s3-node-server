@@ -5,3 +5,5 @@ class IndexController extends Controller {
     this.ctx.body = 'aws s3 node server ok'
   }
 }
+
+module.exports = IndexController
