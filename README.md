@@ -99,7 +99,7 @@ $ npm stop
 
     ```
     ✗ docker login  hub.bscstorage.com
-    Username: bsc_storage
+    Username: *****
     Password: *****
     ```
   - 将镜像push 到白山镜像仓库
