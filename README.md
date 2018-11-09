@@ -19,7 +19,7 @@ login(accesskey, secretkey, host, region, timeout) => (success => {
 })
 ```
 
-- handler  
+- handler
   ⚠️ request header 中务必加入 `{ Authorization: token }`
 
 ```
@@ -91,4 +91,11 @@ $ npm stop
   ```
   ✗ curl 127.0.0.1:8080
   aws s3 node server ok
+  ```
+
+5. 将容器镜像推送到白山镜像仓库(可选)
+
+  ```
+  ✗ docker tag aws-s3-node-server:0.9 hub.bscstorage.com/public/aws-s3-node-server:0.9
+  ✗ docker push hub.bscstorage.com/public/aws-s3-node-server:0.9
   ```
