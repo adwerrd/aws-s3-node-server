@@ -95,7 +95,20 @@ $ npm stop
 
 5. 将容器镜像推送到白山镜像仓库(可选)
 
+  - 先登录白山镜像仓库（这里以bsc_storage用户为例）
+
+    ```
+    ✗ docker login  hub.bscstorage.com
+    Username: bsc_storage
+    Password: *****
+    ```
+  - 将镜像push 到白山镜像仓库
+
   ```
   ✗ docker tag aws-s3-node-server:0.9 hub.bscstorage.com/public/aws-s3-node-server:0.9
   ✗ docker push hub.bscstorage.com/public/aws-s3-node-server:0.9
   ```
+
+  - 使用白山边缘云服务, 将服务部署在公有云上
+
+    欢迎试用: 白山云边缘云服务 [http://computron.bscstorage.com](http://computron.bscstorage.com)
