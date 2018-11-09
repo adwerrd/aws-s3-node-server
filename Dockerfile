@@ -4,7 +4,7 @@ ADD . /aws-s3-node-server
 
 WORKDIR /aws-s3-node-server
 
-RUN npm i yarn -g && yarn
+RUN npm config set unsafe-perm true && npm i yarn -g && yarn
 
 EXPOSE 8080
 
