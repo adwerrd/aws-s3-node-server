@@ -19,9 +19,9 @@ class LoginController extends Controller {
         region,
       )
       ctx.status = 200
+      ctx.cookies.set('token', utility.base64encode(`${accesskey}$$${secretkey}$$${host}$$${region}`))
       ctx.body = {
         buckets: result,
-        token: utility.base64encode(`${accesskey}$$${secretkey}$$${host}$$${region}`),
       }
     } catch (error) {
       ctx.status = 403

@@ -15,13 +15,13 @@ class AwsController extends Controller {
       ctx.status = 200
       ctx.body = result
     } catch (error) {
-      ctx.status = error.statusCode
+      ctx.status = parseInt(error.statusCode) || 500
       ctx.body = error
     }
   }
 
   getKey() {
-    let key = utility.base64decode(this.ctx.get('Authorization'))
+    let key = utility.base64decode(this.ctx.cookies.get('token'))
     return {
       accessKeyId: key.split('$$')[0] || '',
       secretAccessKey: key.split('$$')[1] || '',
